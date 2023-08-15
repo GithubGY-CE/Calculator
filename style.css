@@ -1,0 +1,60 @@
+html {
+    background-color: gray;
+    height: 100vh;
+    min-width: 350px;
+}
+
+body {
+    margin-top: 20vh;
+}
+
+.container {
+    width: 350px;
+    height: 600px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    border: 1px solid white;
+    flex-direction: column;
+    margin: auto;
+    border-radius: 10px;
+    background-color: black;
+}
+
+.row {
+    display: flex;
+    justify-content: space-around;
+    align-content: space-evenly;
+    flex-direction: row;
+}
+
+.screen {
+    background-color: black;
+    border: 1px solid rgb(255, 255, 255);
+    height: 100px;
+    width: 280px;
+    margin-top: 35px;
+}
+
+.row button {
+    margin: 3px;
+    border-radius: 50%;
+    width: 65px;
+    height: 65px;
+    border: none;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.row button:hover {
+    filter: brightness(60%);
+}
+
+.operator {
+    background-color: orange;
+    color:white;
+}
+
+.action {
+    background-color: gray;
+}
