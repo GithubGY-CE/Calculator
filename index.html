@@ -6,42 +6,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculator</title>
     <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
 </head>
 
 <body>
     <div class="container">
         <div class="screen">
+            <p class="screen-text"></p>
         </div>
         <div class="buttons">
             <div class="row">
-                <button id="clear" class="action">C</button>
-                <button class="action">+/-</button>
-                <button class="action">%</button>
-                <button class="action">⬅</button>
+                <button id="clear">C</button>
+                <button id="sign"class="action">+/-</button>
+                <button id="percent"class="action">%</button>
+                <button id="backspace" class="action">⬅</button>
             </div>
             <div class="row">
                 <button class="number">7</button>
                 <button class="number">8</button>
                 <button class="number">9</button>
-                <button class="operator">x</button>
+                <button id="multiply" class="operator">x</button>
             </div>
             <div class="row">
                 <button class="number">4</button>
                 <button class="number">5</button>
                 <button class="number">6</button>
-                <button class="operator">-</button>
+                <button id="subtract" class="operator">-</button>
             </div>
             <div class="row">
                 <button class="number">1</button>
                 <button class="number">2</button>
                 <button class="number">3</button>
-                <button class="operator">+</button>
+                <button id="add" class="operator">+</button>
             </div>
             <div class="row">
                 <button class="number">0</button>
-                <button>.</button>
-                <button>=</button>
-                <button class="operator">÷</button>
+                <button id="period">.</button>
+                <button id="equals">=</button>
+                <button id="divide" class="operator">÷</button>
             </div>
         </div>
     </div>
