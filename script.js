@@ -13,13 +13,7 @@ const numberButtons = document.querySelectorAll(".number");
 numberButtons.forEach(selectedBtn =>
     selectedBtn.addEventListener("click", event => {
         const number = event.target.innerHTML.toString();
-        // if (number === "+/-" || number === "%") {
-        //     if (!isTotalDisplayed) {
-        //         storeNumber(number);
-        //     }
-        // } else {
             storeNumber(number);
-        // }
     }));
 
 
@@ -61,7 +55,6 @@ function storeNumber(selectedNumber) {
     } else if (number2.toString().length < 9 &&
         (number1 && operator || selectedNumber === "backspace")) {
 
-        // isEquals ? number2 = selectedNumber: number2 = editNumber(selectedNumber, number2);
         number2 = editNumber(selectedNumber, number2);
         total = number2;
         changeDisplay();
