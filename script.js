@@ -13,13 +13,13 @@ const numberButtons = document.querySelectorAll(".number");
 numberButtons.forEach(selectedBtn =>
     selectedBtn.addEventListener("click", event => {
         const number = event.target.innerHTML.toString();
-        if (number === "+/-" || number === "%") {
-            if (!isTotalDisplayed) {
-                storeNumber(number);
-            }
-        } else {
+        // if (number === "+/-" || number === "%") {
+        //     if (!isTotalDisplayed) {
+        //         storeNumber(number);
+        //     }
+        // } else {
             storeNumber(number);
-        }
+        // }
     }));
 
 
@@ -47,7 +47,7 @@ equals.addEventListener("click", () => doOperation("equals"))
 function storeNumber(selectedNumber) {
     removeSelectedOperator();
 
-    if (isEquals && !operator) {
+    if (isEquals && !operator && selectedNumber !== "+/-" && selectedNumber !== "%") {
         resetCalculator();
     }
 
@@ -75,13 +75,25 @@ function editNumber(newNumber, number) {
         return number === "" ? "" : number.toString().slice(0, -1);
 
     } else if (newNumber === ".") {
-        return number.includes(".") ? number : number.concat(".");
+        return number.includes(".") ? number : number.toString().concat(".");
 
     } else if (newNumber === "%") {
         return number / 100;
 
     } else if (newNumber === "+/-") {
-        return number == 0 ? number : number * -1;
+        // return number == 0 ? number : number * -1;
+
+        const sign = Math.sign(number);
+
+        switch (sign) {
+            case 0: 
+                return -0;
+            case -0:
+                return 0;
+            case 1:
+            case -1:
+                return number * -1;
+        }
 
     } else {
         return number.toString().concat(newNumber);
@@ -90,7 +102,7 @@ function editNumber(newNumber, number) {
 
 function changeDisplay() {
     const screenText = document.querySelector(".screen-text");
-
+    
     if (total > 999999999 || (Math.abs(total) < 0.000001 && Math.abs(total) > 0)) {
         total = Number(total).toExponential(2);
 
