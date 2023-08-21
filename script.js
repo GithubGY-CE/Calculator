@@ -95,20 +95,24 @@ function changeDisplay() {
         total = Number(total).toExponential(2);
 
     } else if (total.toString().includes(".")) {
-        (total === "." || total === "0.") ? total = "0." : total;
+        (total === "." || total === "0.") ? total = "0." : total = addCommas(total);
 
     } else if (total === "" || isNaN(total)) {
         total.includes("-") ? screenText.innerHTML = "-0" : screenText.innerHTML = 0;
         return;
 
     } else {
-        total = Number(total).toLocaleString();
+        total = addCommas(total);
     }
    
-    // if (total.toString().length > 11) {
-    //     total = total.toString().slice(0,9);
-    // }
+    if (total.toString().length > 11) {
+        total = total.toString().slice(0,9);
+    }
     screenText.innerHTML = total;
+}
+
+function addCommas(number) {
+    return Number(number).toLocaleString("en-US", {'maximumFractionDigits':9});
 }
 
 function doOperation(operation) {
