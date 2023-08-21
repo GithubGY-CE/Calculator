@@ -81,8 +81,6 @@ function editNumber(newNumber, number) {
         return number / 100;
 
     } else if (newNumber === "+/-") {
-        // return number == 0 ? number : number * -1;
-
         const sign = Math.sign(number);
 
         switch (sign) {
@@ -94,10 +92,14 @@ function editNumber(newNumber, number) {
             case -1:
                 return number * -1;
         }
+    } else if (number === -0) {
+        return "-" + newNumber;
 
     } else {
         return number.toString().concat(newNumber);
     }
+    
+    
 }
 
 function changeDisplay() {
@@ -107,7 +109,7 @@ function changeDisplay() {
         total = Number(total).toExponential(2);
 
     } else if (total.toString().includes(".")) {
-        (total === "." || total === "0.") ? total = "0." : total = addCommas(total);
+        (total === "." || total === "0.") ? total = "0." : total;
 
     } else if (total === "" || isNaN(total)) {
         total.includes("-") ? screenText.innerHTML = "-0" : screenText.innerHTML = 0;
