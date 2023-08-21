@@ -73,7 +73,19 @@ body {
     background-color: rgb(165, 84, 84);
 }
 
+#clear:active {
+    background-color: red;
+}
+
 .selected-operator {
     background-color: rgb(236, 212, 75);
     color: white;
+}
+
+#backspace:active {
+    background-color: rgb(202, 70, 70);
+}
+
+.number:active {
+    background-color: yellow;
 }

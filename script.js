@@ -11,7 +11,7 @@ const numberButtons = document.querySelectorAll(".number");
 
 numberButtons.forEach(selectedBtn =>
     selectedBtn.addEventListener("click", event => {
-        const number = event.target.innerHTML;
+        const number = event.target.innerHTML.toString();
         storeNumber(number);
     }));
 
@@ -21,8 +21,9 @@ clearButton.addEventListener("click", resetCalculator);
 const backspaceButton = document.querySelector("#backspace");
 backspaceButton.addEventListener("click", () => {
     if (!isTotalDisplayed) {
-        storeNumber("backspace")
-    }});
+        storeNumber("backspace");
+    }
+});
 
 const operators = document.querySelectorAll(".operator");
 operators.forEach(selectedBtn =>
@@ -37,27 +38,36 @@ equals.addEventListener("click", () => doOperation("equals"))
 
 function storeNumber(selectedNumber) {
     removeSelectedOperator();
-    
-    if (!operator && number1.length <= 8) {
-        number1 = editNumber(selectedNumber, number1);
-        total = number1;  
+
+    if (number1 && !number2 && number1 == total && !operator) {
+        number1 = selectedNumber;
+        total = selectedNumber;
         isTotalDisplayed = false;
         changeDisplay();
-    } else if (number2.length <= 8 && number1 && operator) {
+    } else if (!operator &&
+        (number1.toString().length <= 8 || selectedNumber === "backspace")) {
+
+        number1 = editNumber(selectedNumber, number1);
+        total = number1;
+        isTotalDisplayed = false;
+        changeDisplay();
+    } else if (number2.toString().length <= 8 &&
+        (number1 && operator || selectedNumber === "backspace")) {
+
         number2 = editNumber(selectedNumber, number2);
         total = number2;
         changeDisplay();
         isTotalDisplayed = false;
-    }
+    } 
 }
 
 function editNumber(newNumber, number) {
 
     if (newNumber === "backspace") {
-        return number.slice(0,-1);
+        return number === "" ? "" : number.slice(0, -1);
 
     } else if (newNumber === ".") {
-       return number.includes(".") ? number : number.concat(".");
+        return number.includes(".") ? number : number.concat(".");
 
     } else if (newNumber === "%") {
         return number / 100;
@@ -66,22 +76,27 @@ function editNumber(newNumber, number) {
         return number * -1;
 
     } else {
-        return number.concat(newNumber);
+        return number.toString().concat(newNumber);
     }
 }
 
 function changeDisplay() {
     const screenText = document.querySelector(".screen-text");
+    total = Number(total);
 
     if (total.toString().length > 9) {
         total = total.toExponential(3);
+
     } else if (total.toString().includes(".")) {
-        //do nothing
+        total === "." ? total = "0." : total = parseFloat(total);
+
+    } else if (total === "") {
+        screenText.innerHTML = 0;
+        return;
+
     } else {
-        total = Number(total).toLocaleString();
+        total = total.toLocaleString();
     }
-    
-    
 
     screenText.innerHTML = total;
 }
@@ -92,7 +107,7 @@ function doOperation(operation) {
         number2 = Number(number2);
 
         switch (operator) {
-            case "+": 
+            case "+":
                 number1 += number2;
                 break;
             case "-":
@@ -116,8 +131,6 @@ function doOperation(operation) {
         }
     }
 }
-
-//clear operator when using equal sign!!!!!
 
 function toggleOperationButton() {
     removeSelectedOperator();
