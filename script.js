@@ -72,7 +72,7 @@ function storeNumber(selectedNumber) {
 function editNumber(newNumber, number) {
 
     if (newNumber === "backspace") {
-        return number === "" ? "" : number.slice(0, -1);
+        return number === "" ? "" : number.toString().slice(0, -1);
 
     } else if (newNumber === ".") {
         return number.includes(".") ? number : number.concat(".");
@@ -97,8 +97,8 @@ function changeDisplay() {
     } else if (total.toString().includes(".")) {
         (total === "." || total === "0.") ? total = "0." : total;
 
-    } else if (total === "") {
-        screenText.innerHTML = 0;
+    } else if (total === "" || isNaN(total)) {
+        total.includes("-") ? screenText.innerHTML = "-0" : screenText.innerHTML = 0;
         return;
 
     } else {
