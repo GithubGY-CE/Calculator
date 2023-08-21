@@ -13,8 +13,15 @@ const numberButtons = document.querySelectorAll(".number");
 numberButtons.forEach(selectedBtn =>
     selectedBtn.addEventListener("click", event => {
         const number = event.target.innerHTML.toString();
-        storeNumber(number);
+        if (number === "+/-" || number === "%") {
+            if (!isTotalDisplayed) {
+                storeNumber(number);
+            }
+        } else {
+            storeNumber(number);
+        }
     }));
+
 
 const clearButton = document.querySelector("#clear");
 clearButton.addEventListener("click", resetCalculator);
@@ -45,13 +52,13 @@ function storeNumber(selectedNumber) {
     }
 
     if (!operator &&
-        (number1.toString().length <= 8 || selectedNumber === "backspace")) {
+        (number1.toString().length < 9 || selectedNumber === "backspace")) {
 
         number1 = editNumber(selectedNumber, number1);
         total = number1;
         isTotalDisplayed = false;
         changeDisplay();
-    } else if (number2.toString().length <= 8 &&
+    } else if (number2.toString().length < 9 &&
         (number1 && operator || selectedNumber === "backspace")) {
 
         // isEquals ? number2 = selectedNumber: number2 = editNumber(selectedNumber, number2);
@@ -84,27 +91,23 @@ function editNumber(newNumber, number) {
 function changeDisplay() {
     const screenText = document.querySelector(".screen-text");
 
-    if (total.toLocaleString().toString().length > 9) {
+    if (total > 999999999 || (Math.abs(total) < 0.000001 && Math.abs(total) > 0)) {
         total = Number(total).toExponential(2);
 
     } else if (total.toString().includes(".")) {
-        (total === "." || total === "0.") ? total = "0." : total = parseFloat(total);
+        (total === "." || total === "0.") ? total = "0." : total;
 
     } else if (total === "") {
         screenText.innerHTML = 0;
         return;
 
     } else {
-        if (total.toString().length > 9) {
-            total = total.toString().slice(0,9);
-        }
-
         total = Number(total).toLocaleString();
     }
    
-    if (total.toString().length > 9) {
-        total = total.toString().slice(0,9);
-    }
+    // if (total.toString().length > 11) {
+    //     total = total.toString().slice(0,9);
+    // }
     screenText.innerHTML = total;
 }
 
@@ -133,10 +136,11 @@ function doOperation(operation) {
         isTotalDisplayed = true;
         changeDisplay();
 
-        if (operation === "equals") {
-            operator = "";
-            isEquals = true;
-        }
+    }
+
+    if (operation === "equals") {
+        operator = "";
+        isEquals = true;
     }
 }
 
