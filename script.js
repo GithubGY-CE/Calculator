@@ -112,7 +112,7 @@ function changeDisplay() {
         (total === "." || total === "0.") ? total = "0." : total;
 
     } else if (total === "" || isNaN(total)) {
-        total.includes("-") ? screenText.innerHTML = "-0" : screenText.innerHTML = 0;
+        total.toString().includes("-") ? screenText.innerHTML = "-0" : screenText.innerHTML = 0;
         return;
 
     } else {
