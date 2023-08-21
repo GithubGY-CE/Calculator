@@ -3,6 +3,7 @@ let number2 = "";
 let total = "";
 let operator;
 let isTotalDisplayed = false;
+let isEquals = false; //if the last operator selected was "="
 
 window.onload = resetCalculator;
 
@@ -39,12 +40,11 @@ equals.addEventListener("click", () => doOperation("equals"))
 function storeNumber(selectedNumber) {
     removeSelectedOperator();
 
-    if (number1 && !number2 && number1 == total && !operator) {
-        number1 = selectedNumber;
-        total = selectedNumber;
-        isTotalDisplayed = false;
-        changeDisplay();
-    } else if (!operator &&
+    if (isEquals && !operator) {
+        resetCalculator();
+    }
+
+    if (!operator &&
         (number1.toString().length <= 8 || selectedNumber === "backspace")) {
 
         number1 = editNumber(selectedNumber, number1);
@@ -54,11 +54,12 @@ function storeNumber(selectedNumber) {
     } else if (number2.toString().length <= 8 &&
         (number1 && operator || selectedNumber === "backspace")) {
 
+        // isEquals ? number2 = selectedNumber: number2 = editNumber(selectedNumber, number2);
         number2 = editNumber(selectedNumber, number2);
         total = number2;
         changeDisplay();
         isTotalDisplayed = false;
-    } 
+    }
 }
 
 function editNumber(newNumber, number) {
@@ -73,7 +74,7 @@ function editNumber(newNumber, number) {
         return number / 100;
 
     } else if (newNumber === "+/-") {
-        return number * -1;
+        return number == 0 ? number : number * -1;
 
     } else {
         return number.toString().concat(newNumber);
@@ -82,22 +83,28 @@ function editNumber(newNumber, number) {
 
 function changeDisplay() {
     const screenText = document.querySelector(".screen-text");
-    total = Number(total);
 
-    if (total.toString().length > 9) {
-        total = total.toExponential(3);
+    if (total.toLocaleString().toString().length > 9) {
+        total = Number(total).toExponential(2);
 
     } else if (total.toString().includes(".")) {
-        total === "." ? total = "0." : total = parseFloat(total);
+        (total === "." || total === "0.") ? total = "0." : total = parseFloat(total);
 
     } else if (total === "") {
         screenText.innerHTML = 0;
         return;
 
     } else {
-        total = total.toLocaleString();
-    }
+        if (total.toString().length > 9) {
+            total = total.toString().slice(0,9);
+        }
 
+        total = Number(total).toLocaleString();
+    }
+   
+    if (total.toString().length > 9) {
+        total = total.toString().slice(0,9);
+    }
     screenText.innerHTML = total;
 }
 
@@ -128,6 +135,7 @@ function doOperation(operation) {
 
         if (operation === "equals") {
             operator = "";
+            isEquals = true;
         }
     }
 }
@@ -165,6 +173,8 @@ function resetCalculator() {
     number2 = "";
     operator = "";
     total = 0;
+    isTotalDisplayed = false;
+    isEquals = false;
     changeDisplay();
     removeSelectedOperator();
 }
