@@ -30,9 +30,16 @@ backspaceButton.addEventListener("click", () => {
 const operators = document.querySelectorAll(".operator");
 operators.forEach(selectedBtn =>
     selectedBtn.addEventListener("click", event => {
-        operator = event.target.innerHTML;
-        toggleOperationButton();
-        doOperation();
+        if (operator === "") {
+            operator = event.target.innerHTML;
+            toggleOperationButton();
+            doOperation();
+        } else {
+            doOperation();
+            operator = event.target.innerHTML;
+            toggleOperationButton();
+        }
+       
     }));
 
 const equals = document.querySelector("#equals");
